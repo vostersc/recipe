@@ -1,5 +1,5 @@
 const {pool, client} = require('../db/database');
-const {formatUpvotes} = require('../scraper/data');
+// const {formatUpvotes} = require('../scraper/data');
 const dayjs = require('dayjs');
 
 async function cancelScrapeRequest(id){
@@ -139,7 +139,7 @@ async function writeNewRedditDataToDatabase(data, dbConnection){
         (userid, title, postid, forum, comment, upvotes)
         values ($1, $2, $3, $4, $5, $6)
     `;
-    const allCommentsByAllUsers= prepCommentsDataTable(data);
+    // const allCommentsByAllUsers= prepCommentsDataTable(data);
     for(let i = 0; i < allCommentsByAllUsers.length; i++){
         for(let ii = 0; ii < allCommentsByAllUsers[i].length; ii++){
             const exists = await dbConnection.query('select * from redditusers where username = $1', [allCommentsByAllUsers[i][ii]]);
@@ -204,38 +204,38 @@ function prepUserDataTable(allData){
     });
 }
 
-function prepCommentsDataTable(allData){
-    return allData.allForumUsersData.map(user => {
-        const comments = user.comments.map(comment => {
-            const title = '';
-            const parentpostid = '';
-            const forum = '';
-            const upvotes = '';
+// function prepCommentsDataTable(allData){
+//     return allData.allForumUsersData.map(user => {
+//         const comments = user.comments.map(comment => {
+//             const title = '';
+//             const parentpostid = '';
+//             const forum = '';
+//             const upvotes = '';
 
-            return [
-                user.userId,
-                title,
-                parentpostid,
-                forum,
-                comment,
-                upvotes
-            ];
-        });
+//             return [
+//                 user.userId,
+//                 title,
+//                 parentpostid,
+//                 forum,
+//                 comment,
+//                 upvotes
+//             ];
+//         });
     
-        const posts = user.posts.map(post => {
-            return [
-                user.userId,
-                post.postTitle,
-                post.postId,
-                post.forum,
-                post.postDetails.postText || '',
-                formatUpvotes(post.postDetails.upVotes)
-            ];
-        });
+//         const posts = user.posts.map(post => {
+//             return [
+//                 user.userId,
+//                 post.postTitle,
+//                 post.postId,
+//                 post.forum,
+//                 post.postDetails.postText || '',
+//                 formatUpvotes(post.postDetails.upVotes)
+//             ];
+//         });
 
-        return [...comments, ...posts];
-    });
-}
+//         return [...comments, ...posts];
+//     });
+// }
 
 
 

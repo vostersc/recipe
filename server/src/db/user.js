@@ -1,5 +1,5 @@
 const {pool} = require('./database');
-const {hashPw} = require('../auth/auth');
+const {hashPw} = require('../auth');
 const moment = require('moment');
 
 async function addNewUserToDb(userName, password, name){

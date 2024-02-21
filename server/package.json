@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "s": "node index.js",
-    "start": "NODE_ENV=development nodemon server.js",
+    "start": "node index.js",
+    "s": "NODE_ENV=development nodemon server.js",
     "start:prod": "pm2 start server.js --env production --node-args='--max-old-space-size=1500'",
     "scraper:init": "pm2 start src/scraper/new/index.js --node-args='--max-old-space-size=1500'",
     "scraper:prod": "pm2 restart all",
@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/eslint-parser": "^7.19.1",
+    "@vostersc/personality": "^1.0.1",
     "axios": "^0.27.2",
     "babel-loader": "^8.0.0-beta.0",
     "babel-plugin-lodash": "^3.3.2",

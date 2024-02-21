@@ -1,5 +1,5 @@
 const {pool} = require('../db/database');
-const {generateAccessToken, validateToken, checkPw, hashPw} = require('../auth/auth');
+const {generateAccessToken, validateToken, checkPw, hashPw} = require('../auth');
 const {getUserByEmail, updateUserPassword, checkResetPasswordAttempts, updateResetPasswordAttempts} = require('../db/user');
 const { sendEmail, generateRandomString} = require('../util');
 const moment = require('moment');

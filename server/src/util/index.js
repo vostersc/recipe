@@ -2,8 +2,8 @@ const stripe = require('stripe')(process.env.STRIPE_PRIVATE);
 const fs = require('fs');
 // const p = require('puppeteer');
 const SendInBlue = require('sib-api-v3-sdk');
-const {setUserAsFinanciallyDelinquent} = require('./db/user');
-const {getInstance, waitFor} = require('./scraper/new/crawler');
+const {setUserAsFinanciallyDelinquent} = require('../db/user');
+// const {getInstance, waitFor} = require('./scraper/new/crawler');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
@@ -126,26 +126,26 @@ async function handleAwaitInsideLoop(arr, asyncFn, onErrorFn = () => {}){
 }
 
 
-async function getPossibleForumMatchFromGoogle(forum){
-    const url = `https://www.google.com/search?q="reddit.com%2Fr"+"${forum}"`;
-    const {page, closeBrowser} = await getInstance(isProd);
-    await page.goto(url);
-    await waitFor(page);
+// async function getPossibleForumMatchFromGoogle(forum){
+//     const url = `https://www.google.com/search?q="reddit.com%2Fr"+"${forum}"`;
+//     const {page, closeBrowser} = await getInstance(isProd);
+//     await page.goto(url);
+//     await waitFor(page);
   
-    const forumData = await page.evaluate(() => {
-        return [...document.querySelectorAll('a')].filter(el => el.href.includes('reddit.com')).map(el => el.href);
-    });
+//     const forumData = await page.evaluate(() => {
+//         return [...document.querySelectorAll('a')].filter(el => el.href.includes('reddit.com')).map(el => el.href);
+//     });
 
-    closeBrowser();
+//     closeBrowser();
 
-    const onlyRedditForumUrls = forumData?.filter(urlStr => urlStr?.includes('reddit.com/r/'));
-    const possibleForumMatches = onlyRedditForumUrls?.map(url => url?.split('reddit.com/r/')[1]?.split('/')[0]);
-    const uniquePossibleMatches = eliminateDuplicates(possibleForumMatches); 
-    if(uniquePossibleMatches?.length > 2) uniquePossibleMatches.length = 2;
-    if(uniquePossibleMatches?.filter(el => !!el).length === 0) return [];
+//     const onlyRedditForumUrls = forumData?.filter(urlStr => urlStr?.includes('reddit.com/r/'));
+//     const possibleForumMatches = onlyRedditForumUrls?.map(url => url?.split('reddit.com/r/')[1]?.split('/')[0]);
+//     const uniquePossibleMatches = eliminateDuplicates(possibleForumMatches); 
+//     if(uniquePossibleMatches?.length > 2) uniquePossibleMatches.length = 2;
+//     if(uniquePossibleMatches?.filter(el => !!el).length === 0) return [];
 
-    return uniquePossibleMatches;
-}
+//     return uniquePossibleMatches;
+// }
 
 
 

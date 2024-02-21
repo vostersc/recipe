@@ -3,8 +3,10 @@ import { isLocal } from '../config';
 
 const baseUrl = isLocal ? process.env.REACT_APP_DEV_SERVER_URL : process.env.REACT_APP_PRODUCTION_SERVER_URL;
 
-const token = localStorage.getItem('token');
+const token = isLocal ? process.env.REACT_APP_DEV_TOKEN: localStorage.getItem('token');
 axios.defaults.headers.common['token'] = token;
+const uid = isLocal ? process.env.REACT_APP_DEV_UID : localStorage.getItem('uid');
+axios.defaults.headers.common['uid'] = uid;
 
 export async function submitLogIn(username, password){
     const url = baseUrl + '/authenticate';
@@ -25,8 +27,8 @@ export async function validateToken(){
     return await axios.get(url);
 }
 
-export async function getGroceryItems(){
-    const url = baseUrl + '/groceryItems';
+export async function getGroceryItems(listId){
+    const url = `${baseUrl}/groceryLists/${listId}`;
 
     return await axios.get(url);
 }

@@ -16,7 +16,6 @@ const ModifiedTitle = styled(Title)`
 
 export default function User(){
 
-    console.log('Landing.jsx: 19 --->', process.env);
     // const navigate = useNavigate();
     // const user = useSelector(store => store.user);
     // const [password, setPassword] = useState('');

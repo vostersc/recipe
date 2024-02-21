@@ -4,7 +4,7 @@ const {getClosestForumMatch} = require('../util');
 const { cancelScrapeRequest, listScrapeRequestsByUser } = require('../db/scrape');
 const stringSimilarity = require('string-similarity');
 // const Sentiment = require('sentiment');
-const analyze = require('../personality/index');
+const analyze = require('@vostersc/personality');
 const WordPOS = require('wordpos');
 const wordpos = new WordPOS();
 // const sentimentTool = new Sentiment();
@@ -46,7 +46,7 @@ function routes(app){
 
         const commentBlock = user?.comments?.reduce((acc, cur) => acc = acc + cur + ' ', '');
         // const sentiment = sentimentTool.analyze(commentBlock);
-        const personality = analyze(commentBlock);
+        // const personality = analyze(commentBlock);
         const releventWords = await wordpos.getPOS(commentBlock);
         const words = [...releventWords.nouns, ...releventWords.adjectives, ...releventWords.verbs, ...releventWords.adverbs]?.join(' ');
         const wordCloud = words?.split(' ')?.reduce((acc, cur) => {
