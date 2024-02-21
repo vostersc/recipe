@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import colors from './colors';
 import font from './font';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const Button = styled.button`
     margin: 4px;

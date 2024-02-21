@@ -3,8 +3,8 @@ import { isLocal } from '../config';
 
 const baseUrl = isLocal ? process.env.REACT_APP_DEV_SERVER_URL : process.env.REACT_APP_PRODUCTION_SERVER_URL;
 
-const token = localStorage.getItem('eoptoken');
-axios.defaults.headers.common['eoptoken'] = token;
+const token = localStorage.getItem('token');
+axios.defaults.headers.common['token'] = token;
 
 export async function submitLogIn(username, password){
     const url = baseUrl + '/authenticate';
@@ -21,6 +21,12 @@ export async function submitLogIn(username, password){
 
 export async function validateToken(){
     const url = baseUrl + '/validate';
+
+    return await axios.get(url);
+}
+
+export async function getGroceryItems(){
+    const url = baseUrl + '/groceryItems';
 
     return await axios.get(url);
 }

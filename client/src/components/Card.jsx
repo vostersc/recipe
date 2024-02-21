@@ -1,7 +1,7 @@
 import React from 'react';
 import colors from '../components/colors';
 import font from './font';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const Wrapper = styled.div`
     margin-top: 16px;

@@ -5,7 +5,7 @@ import font from '../components/font';
 import { logOut } from '../redux/actions';
 import src from "../images/food-spread.jpg";
 import { store } from '../redux/store';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { useNavigate } from 'react-router-dom';
 // import { useSelector } from "react-redux";
 

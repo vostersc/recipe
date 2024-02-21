@@ -8,7 +8,7 @@ import React from 'react';
 import User from './routes/User';
 import auth from './routes/auth';
 import colors from './components/colors';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const AppWrapper = styled.div`
     height: 100%;
