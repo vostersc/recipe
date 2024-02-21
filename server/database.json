@@ -1,0 +1,4 @@
+{
+  "dev": { "ENV": "DATABASE_URL" },
+  "prod": { "ENV": "DATABASE_URL" }
+}
