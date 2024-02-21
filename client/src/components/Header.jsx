@@ -20,6 +20,7 @@ const Wrapper = styled.div`
     padding-bottom: 8px;
     background: ${ colors.secondary };
     overflow: hidden;
+    background-color: #FAFAFA;
 `;
 
 const ImageWrapper = styled.div`

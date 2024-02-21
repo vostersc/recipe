@@ -1,8 +1,9 @@
 import {Route, Routes} from "react-router-dom";
 
-import Course from './routes/Course';
-import Courses from './routes/Courses';
+// import Course from './routes/Course';
+// import Courses from './routes/Courses';
 import Header from './components/Header';
+import Landing from './routes/Landing';
 import React from 'react';
 import User from './routes/User';
 import auth from './routes/auth';
@@ -22,8 +23,9 @@ function App() {
                 <Routes>
 
                     <Route path="/user" element={auth(<User/>)}/>
-                    <Route path='/course/:courseId/*' element={auth(<Course/>)}/>
-                    <Route path='*' element={auth(<Courses/>)} />
+                    {/* <Route path='/course/:courseId/*' element={auth(<Course/>)}/> */}
+                    {/* <Route path='*' element={auth(<Courses/>)} /> */}
+                    <Route path='*' element={<Landing/>} />
 
                 </Routes>
         </AppWrapper>
