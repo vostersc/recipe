@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "s": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@js-temporal/polyfill": "^0.4.4",
+    "@vostersc/crawler": "^1.0.2",
+    "axios": "^1.6.7",
+    "node-fetch": "2.6.6",
+    "paprika-api": "^1.0.3"
+  }
+}
