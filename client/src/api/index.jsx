@@ -27,11 +27,31 @@ export async function validateToken(){
     return await axios.get(url);
 }
 
-export async function getGroceryItems(listId){
-    const url = `${baseUrl}/groceryLists/${listId}`;
+
+
+export async function getGroceries(listId){
+    const url = `${baseUrl}/groceries/${listId}`;
 
     return await axios.get(url);
 }
+
+export async function getGroceryLists(){
+    const url = `${baseUrl}/groceryLists`;
+
+    return await axios.get(url);
+}
+
+export async function paprikaLogin(email, password){
+    const url = baseUrl + '/paprika/login';
+    const body = {email, password};
+
+    return await axios.post(url, body);
+}
+
+
+
+
+
 
 export async function getUserData(id){
     const url = baseUrl + '/user/' + id;
@@ -45,9 +65,6 @@ export async function updateUserData(data){
 
     return await axios.patch(url, body);
 }
-
-
-
 
 export async function getAllCourseSummaries(courseIds){
     const url = baseUrl + `/courses`;

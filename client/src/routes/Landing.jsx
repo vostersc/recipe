@@ -1,10 +1,10 @@
 import {Button, Input} from '../components';
 import Card, {Description, P, Title} from '../components/Card';
 import React, {useEffect, useState} from 'react';
+import {getGroceries, getGroceryLists} from '../api';
 
 // import Loading from '../components/Loading';
 import PageWrapper from '../components/PageWrapper';
-import {getGroceryItems} from '../api';
 import styled from 'styled-components/macro';
 
 const ModifiedTitle = styled(Title)`
@@ -23,27 +23,38 @@ export default function User(){
     // const [isLoading, setLoadingStatus] = useState(false);
     // const [message, setMessage] = useState(setInitialMessageState(user));
 
-    const [recipes, setRecipes] = useState([]);
+    const [groceryItems, setGroceryItems] = useState([]);
+    const [groceryLists, setGroceryLists] = useState([]);
 
     useEffect(() => {
         let mounted = true;
 
         // if(!auth.auth) return;
-        getData(mounted);
+        // getGroceryListsRequest(mounted);
+        getGroceryItemsRequest(null, mounted);
 
         return () => mounted = false;
         // eslint-disable-next-line
       }, []);
 
-
-    async function getData(mounted){
+      async function getGroceryListsRequest(mounted){
         if(!mounted) return;
     
-        const response = await getGroceryItems();
+        const response = await getGroceryLists();
         const hasData = response?.data?.length > 0;
         if(!hasData) return;
     
-        setRecipes(response.data);
+        setGroceryLists(response.data);
+    }
+
+    async function getGroceryItemsRequest(groceryListName, mounted){
+        if(!mounted) return;
+    
+        const response = await getGroceries(groceryListName);
+        const hasData = response?.data?.length > 0;
+        if(!hasData) return;
+    
+        setGroceryItems(response.data);
     }
 
     return (
