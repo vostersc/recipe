@@ -1,0 +1,5 @@
+- mark items missed as clickable -> edit to find better match, suggestions???
+- status bar that shows how many the software has added to the cart so far -> becomes a view cart when loaded (takes them to cart, cart is brought over by copying cookies, local storage, so on...)
+- need to hook up auth login
+- need to hook up stripe
+- drop into docker, set up CICD
