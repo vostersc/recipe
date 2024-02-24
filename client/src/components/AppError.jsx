@@ -1,7 +1,25 @@
+import {P} from './Card';
+import PopUp from './PopUp';
 import React from 'react';
+import colors from './colors';
+import styled from 'styled-components/macro';
 
-const ErrorComponent = () => {
-  return <h1>Something went wrong</h1>;
+const Red = styled(P)`
+    padding-top: 8px;
+    color: ${colors.error};
+`;
+
+export function ErrorComponent({message}){
+    const [popupStatus, setPopupStatus] = React.useState(true);
+
+    return (
+        <PopUp
+            show={popupStatus}
+            close={() => setPopupStatus(!popupStatus)}
+            titleText={'Error:'}
+            renderContent={() => <Red>{message || 'Oh my. Something went wrong.'}</Red>}
+        />
+    );
 };
 
 export class AppError extends React.Component {

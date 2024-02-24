@@ -4,12 +4,15 @@ import font from './font';
 import styled from 'styled-components/macro';
 
 const Button = styled.button`
+    height: 40px;
     margin: 4px;
     font-size: ${ font.large };
     background: ${ colors.primary };
     color: ${ colors.textSecondary };
     border-color: ${ colors.primary };
-    width: 100px;
+    padding-left: 8px;
+    padding-right: 8px;
+    cursor: pointer;
     &:hover,
     &:focus,
     &:active {

@@ -5,7 +5,12 @@ const colors = {
     secondaryBackground: '#ECECEC',
     text: 'black',
     textSecondary: 'white',
-    highlight: '#7F0000'
+
+    highlight: '#7F0000',
+
+    error: 'red',
+    success: 'green',
+    gray: 'gray'
 };
 
 export default colors;
