@@ -30,9 +30,9 @@ export async function validateToken(){
 
 
 export async function getGroceries(listId){
-    const url = `${baseUrl}/groceries/${listId}`;
+    if(!listId) return await axios.get(`${baseUrl}/groceries`);
 
-    return await axios.get(url);
+    return await axios.get(`${baseUrl}/groceries/${listId}`);
 }
 
 export async function getGroceryLists(){

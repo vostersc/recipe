@@ -3,6 +3,7 @@ import Card, {Description, P, Title} from '../components/Card';
 import React, {useEffect, useState} from 'react';
 import {getGroceries, getGroceryLists} from '../api';
 
+import Dropdown from '../components/Dropdown';
 // import Loading from '../components/Loading';
 import PageWrapper from '../components/PageWrapper';
 import styled from 'styled-components/macro';
@@ -14,23 +15,22 @@ const ModifiedTitle = styled(Title)`
     width: 100%;
 `;
 
+const ModifiedCard = styled(Card)`
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+`;
+
 export default function User(){
-
-    // const navigate = useNavigate();
-    // const user = useSelector(store => store.user);
-    // const [password, setPassword] = useState('');
-    // const [secondPassword, setSecondPassword] = useState('');
-    // const [isLoading, setLoadingStatus] = useState(false);
-    // const [message, setMessage] = useState(setInitialMessageState(user));
-
     const [groceryItems, setGroceryItems] = useState([]);
     const [groceryLists, setGroceryLists] = useState([]);
+    const [activeDropdownItem, setActiveDropdownItem] = useState({});
 
     useEffect(() => {
         let mounted = true;
 
         // if(!auth.auth) return;
-        // getGroceryListsRequest(mounted);
+        getGroceryListsRequest(mounted);
         getGroceryItemsRequest(null, mounted);
 
         return () => mounted = false;
@@ -45,6 +45,7 @@ export default function User(){
         if(!hasData) return;
     
         setGroceryLists(response.data);
+        setActiveDropdownItem(response.data[0]);
     }
 
     async function getGroceryItemsRequest(groceryListName, mounted){
@@ -57,17 +58,27 @@ export default function User(){
         setGroceryItems(response.data);
     }
 
+    function selectDropdownItem(uid){
+        const item = groceryLists.find(el => el.uid === uid);
+        setActiveDropdownItem(item);
+    }
+    
+    console.log('Landing.jsx: 74 --->', groceryItems);
     return (
         <PageWrapper>
-            <Card>
+            <ModifiedCard>
+                <Dropdown
+                    selected={activeDropdownItem}
+                    options={groceryLists}
+                    selectItem={selectDropdownItem}
+                />
                 <ModifiedTitle>
-                    Groceries
-                    <Button>Add To Cart</Button>
+                    <Button>Load Groceries</Button>
                 </ModifiedTitle>
-            </Card>
+            </ModifiedCard>
             <Card>
                 <Description>
-
+                    {groceryItems.map((el, i) => <P key={i}>{limitDisplay(el[0], 27)}</P>)}
                 </Description>
             </Card>
             view of grocery list, mark items missed as clickable
@@ -81,4 +92,21 @@ export default function User(){
                             cart page uses an iframe to imbed harmons (copy local storage from testBrowser and paste in user's browser)
         </PageWrapper>
     );
+}
+
+export function limitDisplay(str, maxAllowed){
+    const words = str.split(' ');
+    const displayableText = words.reduce((acc, cur, i, arr) => {
+        const futureString = `${acc} ${cur}`;
+        const isSafeLength = futureString.length < maxAllowed;
+        if(!isSafeLength){
+            arr.splice(1);
+            return acc;
+        }
+    
+        acc = futureString;
+        return acc;
+    }, '');
+
+    return displayableText;
 }

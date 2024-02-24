@@ -6,19 +6,26 @@ const {getGroceries, getToken, getGroceryLists} = require('@vostersc/paprika');
 
 
 function routes(app){
+    getToken('kaleigh.niemela@gmail.com', 'tCk1mb^IFUv9H2yE'); //MOVE TO MIDDLEWARE
 
     app.get('/api/groceryLists', async (req, res) => {
-        await getToken('kaleigh.niemela@gmail.com', 'tCk1mb^IFUv9H2yE');
+        
         const groceryLists = await getGroceryLists();
     
         res.send(groceryLists);
     });
 
     app.get('/api/groceries/:listName?', async (req, res) => {
-        await getToken('kaleigh.niemela@gmail.com', 'tCk1mb^IFUv9H2yE');
+        // await getToken('kaleigh.niemela@gmail.com', 'tCk1mb^IFUv9H2yE');
+        if(!req.params?.listName){
+            const groceries = await getGroceries();
+
+            return res.send(groceries);
+        }
+
         const groceries = await getGroceries(JSON.parse(req.params?.listName));
 
-        res.send(groceries);
+        return res.send(groceries);
     });
 
 }
