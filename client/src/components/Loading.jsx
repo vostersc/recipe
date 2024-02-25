@@ -1,7 +1,7 @@
 import { ErrorComponent } from './AppError';
 import React from 'react';
-import styled from 'styled-components/macro';
 import colors from './colors';
+import styled from 'styled-components/macro';
 
 export default function Loading({ percentComplete, error }) {
     if (error) return <ErrorComponent message={'Something went wrong. Try again or contact support.'} />
@@ -23,12 +23,13 @@ export default function Loading({ percentComplete, error }) {
 const Wrapper = styled.div`
     border: 3px solid black;
     background: ${colors.primary};
+    margin-top: 1px;
 `;
 
 const LoadingBar = styled.div`
     padding: 1px;
     width: 200px;
-    height: 40px;
+    height: 36px;
     position: relative;
 `;
 
@@ -43,7 +44,7 @@ const Progress = styled.div`
 
 const Number = styled.span`
     position: relative;
-    top: 5px;
+    top: 10px;
     left: 8px;
 `;
 

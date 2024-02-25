@@ -48,6 +48,5 @@ export function groupItems(items, maxItems){
         tempGroup = [...tempGroup, items[i]];
     }
 
-    console.log('MultiColumnList.jsx: 52 --->', groups);
     return groups;
 }

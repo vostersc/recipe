@@ -12,6 +12,7 @@ const initSiteRoutes = require('./src/routes/site');
 // const initStripeRoutes = require('./src/routes/stripe');
 // const fs = require('fs');
 const cors = require('cors');
+require('express-ws')(app); //webSocket available
 
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 // const ddos = new Ddos({burst:10, limit:15});

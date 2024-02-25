@@ -7,17 +7,20 @@ const Button = styled.button`
     height: 40px;
     margin: 4px;
     font-size: ${ font.large };
-    background: ${ colors.primary };
-    color: ${ colors.textSecondary };
+    background: ${ colors.secondary };
+    color: ${ colors.primary };
     border-color: ${ colors.primary };
     padding-left: 8px;
     padding-right: 8px;
     cursor: pointer;
+
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    
     &:hover,
     &:focus,
     &:active {
-        color: ${ colors.text };
-        background: ${ colors.background };
+        color: ${ colors.secondary };
+        background: ${ colors.primary };
     }
 `;
 

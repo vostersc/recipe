@@ -1,3 +1,4 @@
+import {Button} from '../components';
 import React from 'react';
 import colors from '../components/colors';
 import font from './font';
@@ -38,16 +39,16 @@ const Wrapper = styled.div`
     display: inline-block;
 `;
 
-const DropdownButton = styled.button`
-    background-color: ${colors.primary};
-    color: ${colors.secondary};
+const DropdownButton = styled(Button)`
+    background-color: ${colors.secondary};
+    color: ${colors.primary};
     height: 40px;
     font-size: ${font.large};
     border: none;
     cursor: pointer;
     &:hover {
-        background-color: ${colors.secondary};
-        color: ${colors.primary};
+        background-color: ${colors.primary};
+        color: ${colors.secondary};
     }
     border: 2px solid ${colors.primary};
 `;
@@ -55,12 +56,16 @@ const DropdownButton = styled.button`
 const DropdownContent = styled.div`
     display: ${(props) => (props.open ? 'block' : 'none')};
     position: absolute;
+    top: 42px;
+    left: 4px;
     background-color: ${colors.secondary};
     min-width: 160px;
     z-index: 1;
     color: ${colors.primary};
     font-size: ${font.normal};
-    border: 3px solid ${colors.primary};
+    border: 2px solid ${colors.primary};
+
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
 `;
 
 const DropdownItem = styled.div`
