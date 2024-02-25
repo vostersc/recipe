@@ -3,7 +3,7 @@ import colors from '../components/colors';
 import font from './font';
 import styled from 'styled-components/macro';
 
-export default function Dropdown({selectItem, options}){
+export default function Dropdown({selectItem, options, selected}){
     const [isOpen, setIsOpen] = React.useState(false);
     const [selectedOption, setSelectedOption] = React.useState(null);
 
@@ -18,7 +18,7 @@ export default function Dropdown({selectItem, options}){
     return (
         <Wrapper>
             <DropdownButton onClick={toggleDropdown}>
-                {selectedOption ? selectedOption.name : 'Select A List'}
+                {selectedOption || selected?.name ? selected.name : 'All Groceries'}
             </DropdownButton>
             <DropdownContent open={isOpen}>
                 {

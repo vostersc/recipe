@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-export default function MultiColumnList({items, renderFn}){ 
+export default function MultiColumnList({items, renderFn, defaultDisplay = 'No items found.'}){ 
+    if(!items?.length || items?.length === 0) return <MultiColumnListWrapper><Column>{defaultDisplay}</Column></MultiColumnListWrapper>;
 
     return (
         <MultiColumnListWrapper>
@@ -18,7 +19,22 @@ export default function MultiColumnList({items, renderFn}){
     );
 }
 
+const MultiColumnListWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+`;
+
+const Column = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    min-width: 180px;
+`;
+
 export function groupItems(items, maxItems){
+    if(items?.length === 1) return [items];
+
     let groups = [];
     let tempGroup = [];
     for(let i = 0; i < items.length; i++){
@@ -32,18 +48,6 @@ export function groupItems(items, maxItems){
         tempGroup = [...tempGroup, items[i]];
     }
 
+    console.log('MultiColumnList.jsx: 52 --->', groups);
     return groups;
 }
-
-const MultiColumnListWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-`;
-
-const Column = styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-    min-width: 180px;
-`;

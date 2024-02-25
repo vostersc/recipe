@@ -32,7 +32,7 @@ export async function validateToken(){
 export async function getGroceries(listId){
     if(!listId) return await axios.get(`${baseUrl}/groceries`);
 
-    return await axios.get(`${baseUrl}/groceries/${listId}`);
+    return await axios.get(`${baseUrl}/groceries/${JSON.stringify(listId)}`);
 }
 
 export async function getGroceryLists(){
