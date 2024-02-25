@@ -34,6 +34,13 @@ function routes(app){
     app.post('/api/authenticate', async (req, res) => {
         if(!req.body.username || !req.body.password) return res.send({ status: false, message: 'include username and password'});
 
+        if(process.env.NODE_ENV?.includes('dev')){
+            console.log('users.js: 38 --->', 'ALERT! BYPASSING AUTH IN DEV MODE.');
+            const token = generateAccessToken(req.body.username);
+            const userData = {id: 1, isFirstTime: false, email: req.body.username, courses: []};
+            return res.send({ status: true, token, user: userData });  
+        }
+
         try {
             const userMatches = await getUserByEmail(req.body.username);
             const oneUser = userMatches?.rows[0];
@@ -43,7 +50,6 @@ function routes(app){
             const userData = {id: oneUser.id, isFirstTime: oneUser.isfirsttime, email: oneUser.email, courses: oneUser.courses};
 
             return res.send({ status: true, token, user: userData }); 
-
         } catch(err){
             console.log('users.js: 56 --->', err);
             return res.send({status: false, message: 'error'});

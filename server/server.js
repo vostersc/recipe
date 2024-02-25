@@ -7,8 +7,8 @@ const {logger} = require('./src/util');
 // const {setHeaders} = require('./src/config');
 // const initScraperRoutes = require('./src/routes/scraper');
 const initSiteRoutes = require('./src/routes/site');
-// const initUserRoutes = require('./src/routes/users');
-// const {authMiddleware} = require('./src/auth');
+const initUserRoutes = require('./src/routes/users');
+const {authMiddleware} = require('./src/auth');
 // const initStripeRoutes = require('./src/routes/stripe');
 // const fs = require('fs');
 const cors = require('cors');
@@ -38,10 +38,10 @@ app.use(bodyParser.json());
 // app.use(ddos.express);
 
 app.use(logger);
-// app.use(authMiddleware);
+app.use(authMiddleware);
 
 // initScraperRoutes(app);
-// initUserRoutes(app);
+initUserRoutes(app);
 initSiteRoutes(app);
 // initStripeRoutes(app);
 

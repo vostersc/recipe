@@ -75,7 +75,8 @@ export default function User() {
     }
 
     function viewCart(){
-        window.location.reload(false); //change once working
+        window.open('https://shop.harmonsgrocery.com/checkout/v2/cart');
+        window.location.reload(false);
         //set cookies and local storage then redirect
     }
 
@@ -96,7 +97,7 @@ export default function User() {
                         </Organizer>
                     ) : <SmallTitle>Load A List</SmallTitle>
                 }
-                { canViewCartNow ? <Organizer><Green>{atcState.name}</Green><Button onClick={() => viewCart()}>View Cart</Button></Organizer> : '' } 
+                { canViewCartNow ? <Organizer>List Complete: <Green>{atcState.name}</Green><Button onClick={() => viewCart()}>View Shopping Cart</Button></Organizer> : '' } 
             </Card>
             {/* SEPARATE VIEW/LOGIC INTO OWN FILE */}
 

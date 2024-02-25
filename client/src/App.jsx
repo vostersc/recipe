@@ -25,7 +25,7 @@ function App() {
                     <Route path="/user" element={auth(<User/>)}/>
                     {/* <Route path='/course/:courseId/*' element={auth(<Course/>)}/> */}
                     {/* <Route path='*' element={auth(<Courses/>)} /> */}
-                    <Route path='*' element={<Landing/>} />
+                    <Route path='*' element={auth(<Landing/>)} />
 
                 </Routes>
         </AppWrapper>
