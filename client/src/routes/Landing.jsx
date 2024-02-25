@@ -359,6 +359,7 @@ export default function User() {
         setActiveDropdownItem(item);
     }
 
+    console.log('Landing.jsx: 362 --->', activeDropdownItem);
     const canViewCartNow = addToCartStatus.percentComplete === 100 && !addToCartStatus.error
     return (
         <PageWrapper>

@@ -17,7 +17,7 @@ export function ErrorComponent({message}){
             show={popupStatus}
             close={() => setPopupStatus(!popupStatus)}
             titleText={'Error:'}
-            renderContent={() => <Red>{message || 'Oh my. Something went wrong.'}</Red>}
+            renderContent={() => <Red>{message || 'Oh my! Something went wrong.'}</Red>}
         />
     );
 };
