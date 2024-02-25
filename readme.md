@@ -1,4 +1,3 @@
-- add drop down SVG
 - optimize react
 
 - crawler needs to provide .statusUpdate() and .stop() methods

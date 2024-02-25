@@ -1,4 +1,5 @@
 import {Button} from '../components';
+import DropDownIcon from './DropdownIcon';
 import React from 'react';
 import colors from '../components/colors';
 import font from './font';
@@ -39,10 +40,17 @@ const Wrapper = styled.div`
     display: inline-block;
 `;
 
+const DDPosition = styled.span`
+    position: relative;
+    left: -225px;
+    bottom: 26px;
+`;
+
 const DropdownButton = styled(Button)`
     background-color: ${colors.secondary};
     color: ${colors.primary};
     height: 40px;
+    width: 200px;
     font-size: ${font.large};
     border: none;
     cursor: pointer;
