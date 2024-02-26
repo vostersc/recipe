@@ -71,7 +71,7 @@ export default function User(){
                     Site Issues: If you experience site issues, please take a screen shot and shoot us an email.
                 </Description>
                 <Description>
-                    Questions or Problems: Shoot us an email. We usually respond in a few days. admin@encyclopeidaOfPower.com
+                    Questions or Problems: Shoot us an email. We usually respond in a few days. admin@websitename.com
                 </Description>
             </Card>
         </PageWrapper>

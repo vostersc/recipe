@@ -1,18 +1,18 @@
-import Card, { Description, P, SmallTitle, Title } from '../components/Card';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getGroceries, getGroceryLists } from '../api';
 
-import { Button } from '../components';
-import Dropdown from '../components/Dropdown';
-import Loading from '../components/Loading';
-import MultiColumnList from '../components/MultiColumnList.jsx';
+// import Eg from './INTERVIEW.jsx';
+import Landing_Bottom from './Landing_Bottom.jsx';
+import Landing_Top from './Landing_Top.jsx'
 import PageWrapper from '../components/PageWrapper';
 import Popup from '../components/PopUp.jsx';
-import colors from '../components/colors.jsx';
-import styled from 'styled-components/macro';
 
-let socket;
+// import { useSelector } from 'react-redux';
+
+let socket; //move
 export default function User() {
+    console.log('Landing.jsx: 13 --->', 'render');
+    // const auth = useSelector(s => s.authentication);
     const [groceryItems, setGroceryItems] = useState([]);
     const [groceryLists, setGroceryLists] = useState([]);
     const [activeDropdownItem, setActiveDropdownItem] = useState({});
@@ -50,116 +50,62 @@ export default function User() {
         setGroceryItems(response.data);
     }
 
-    function selectDropdownItem(uid) {
+    const selectDropdownItem = useCallback(uid => {
         const item = groceryLists.find(el => el.uid === uid);
         setActiveDropdownItem(item);
         getGroceryItemsRequest(item.name, true);
-    }
+    }, [groceryLists]);
 
-    function runAddToCart(groceryList){
+    const runAddToCart = useCallback(groceryList => {
         if(!groceryList) return setPopUpState(true);
 
-        socket = new WebSocket(`ws://localhost:3000/api/addToCart/${groceryList}`);
+        socket = new WebSocket(`ws://localhost:3000/api/addToCart/${groceryList}`); //get url from env or defaults file
 
         socket.addEventListener('open', () => setAtcState({ percentComplete: 1, error: false, off: null, name: groceryList }));
         socket.addEventListener('close', () => setAtcState({ percentComplete: 0, error: false, off: null, name: '' }));
         socket.onmessage = e => setAtcState(JSON.parse(e.data));
 
         return false;
-    }
+    }, [groceryLists]);
 
-    function closeConnection(){
+    const closeConnection = useCallback(() => {
         const nextState = {percentComplete: 0, error: false, off: true}; //eventually allow multiple ATC, then add 'name' property
         socket.send(nextState);
         setAtcState(nextState);
-    }
+    }, []);
 
-    function viewCart(){
-        window.open('https://shop.harmonsgrocery.com/checkout/v2/cart');
+    const viewCart = useCallback(() => {
+        window.open('https://shop.harmonsgrocery.com/checkout/v2/cart'); //get from env or defaults file
         window.location.reload(false);
         //set cookies and local storage then redirect
-    }
+    }, []);
 
-    const canViewCartNow = atcState.percentComplete === 100 && !atcState.error
-    const loading = atcState.percentComplete > 0 && atcState.percentComplete < 100;
+    const renderPopupContent = useCallback(() => 'Select a list before loading the cart.', []);
+    const close = useCallback(() => setPopUpState(false), []);
+
     return (
         <PageWrapper>
+            <Landing_Top
+                atcState={atcState}
+                closeConnection={closeConnection}
+                viewCart={viewCart}
+            />
+            <Landing_Bottom
+                limitDisplay={limitDisplay}
+                runAddToCart={runAddToCart}
+                activeDropdownItem={activeDropdownItem}
+                groceryLists={groceryLists}
+                selectDropdownItem={selectDropdownItem}
+                atcState={atcState}
+                groceryItems={groceryItems}
+            />
 
-
-            {/* SEPARATE VIEW/LOGIC INTO OWN FILE */}
-            <Card>
-                {
-                    loading ? (
-                        <Organizer>
-                            <SmallTitle>Loading: <Green>{atcState.name}</Green></SmallTitle>
-                            <Loading percentComplete={atcState.percentComplete} error={atcState.error}/>
-                            <Stop onClick={() => closeConnection()}>Stop</Stop>
-                        </Organizer>
-                    ) : <SmallTitle>Load A List</SmallTitle>
-                }
-                { canViewCartNow ? <Organizer>List Complete: <Green>{atcState.name}</Green><Button onClick={() => viewCart()}>View Shopping Cart</Button></Organizer> : '' } 
-            </Card>
-            {/* SEPARATE VIEW/LOGIC INTO OWN FILE */}
-
-
-            {/* SEPARATE VIEW/LOGIC INTO OWN FILE */}
-            <Card>
-                <TitleWrapper>
-                    <DropdownPadding>
-                        <Dropdown selected={activeDropdownItem} options={groceryLists} selectItem={selectDropdownItem} />
-                    </DropdownPadding>
-                    { !canViewCartNow && !loading && activeDropdownItem?.name ? <Button onClick={() => runAddToCart(activeDropdownItem?.name)}>Load This Cart</Button> : '' } 
-                </TitleWrapper>
-                <Description>
-                    <MultiColumnList items={groceryItems.map(el => el[0])} renderFn={(el, i) => <P key={i}>{limitDisplay(el, 27)}</P>} />
-                </Description>
-            </Card>
-            {/* SEPARATE VIEW/LOGIC INTO OWN FILE */}
-
-
-            <Popup show={popUpState} close={() => setPopUpState(false)} titleText={'Warning:'} renderContent={() => 'Select a list before loading the cart.'}/>
-
-
+            <Popup show={popUpState} close={close} titleText={'Warning:'} renderContent={renderPopupContent}/>
         </PageWrapper>
     );
 }
 
-const TitleWrapper = styled(Title)`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-`;
-
-const DropdownPadding = styled.div`
-    padding-top: 1px;
-    padding-left: 4px;
-`;
-
-const Organizer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
-
-const Stop = styled(Button)`
-    height: 40px;
-    color: ${colors.error};
-    background-color: ${colors.secondary};
-    border: 2px solid ${colors.error};
-    max-width: 200px;
-    &:hover {
-        background-color: ${colors.error};
-        color: ${colors.secondary};
-        border: 2px solid ${colors.error};
-    }
-`;
-
-const Green = styled.span`
-    color: ${colors.success};
-`;
-
-export function limitDisplay(str, maxAllowed) {
+function limitDisplay(str, maxAllowed) {
     const words = str.split(' ');
     const displayableText = words.reduce((acc, cur, i, arr) => {
         const futureString = `${acc} ${cur}`;

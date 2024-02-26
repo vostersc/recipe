@@ -24,7 +24,7 @@ export default function Dropdown({selectItem, options, selected}){
             </DropdownButton>
             <DropdownContent open={isOpen}>
                 {
-                    options.map((el, i) => (
+                    options && options.map((el, i) => (
                         <DropdownItem key={i} onClick={() => handleOptionClick(el)}>
                             {el.name}
                         </DropdownItem>
@@ -38,12 +38,6 @@ export default function Dropdown({selectItem, options, selected}){
 const Wrapper = styled.div`
     position: relative;
     display: inline-block;
-`;
-
-const DDPosition = styled.span`
-    position: relative;
-    left: -225px;
-    bottom: 26px;
 `;
 
 const DropdownButton = styled(Button)`

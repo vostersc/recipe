@@ -94,14 +94,14 @@ export default function Header(){
             </ImageWrapper>
             <MenuOpts>
                 <MenuGroup>
-                    <MenuOpt to={'/'}>All Courses</MenuOpt>
+                    {/*<MenuOpt to={'/'}>All Courses</MenuOpt>*/}
                     {
                         window.location.pathname.includes('course/') ? <MenuOpt to={'/courses'}>Course Outline</MenuOpt> : ''
                     }
                 </MenuGroup>
                 <MenuGroup>
-                    <SpacedMenuOpt to={'/user'}>Account</SpacedMenuOpt>
-                    <MenuOpt to={'/'} onClick={ triggerLogOut }>Exit Site</MenuOpt>
+                    {/*<SpacedMenuOpt to={'/user'}>Account</SpacedMenuOpt>*/}
+                    {/*<MenuOpt to={'/'} onClick={ triggerLogOut }>Exit Site</MenuOpt>*/}
                 </MenuGroup>
             </MenuOpts>
         </Wrapper>

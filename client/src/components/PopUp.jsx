@@ -1,8 +1,9 @@
 import {Title} from './Card';
 import colors from './colors';
+import {memo} from 'react';
 import styled from 'styled-components/macro';
 
-export default function Popup({show, close, titleText, renderContent}) {
+function Popup({show, close, titleText, renderContent}) {
     if(!show) return;
 
     return (
@@ -19,6 +20,8 @@ export default function Popup({show, close, titleText, renderContent}) {
         </>
     );
 }
+
+export default memo(Popup);
 
 const Background = styled.div`
     position: absolute;
