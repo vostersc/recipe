@@ -11,7 +11,6 @@ import Popup from '../components/PopUp.jsx';
 
 let socket; //move
 export default function User() {
-    console.log('Landing.jsx: 13 --->', 'render');
     // const auth = useSelector(s => s.authentication);
     const [groceryItems, setGroceryItems] = useState([]);
     const [groceryLists, setGroceryLists] = useState([]);

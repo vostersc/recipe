@@ -20,7 +20,7 @@ export default function Dropdown({selectItem, options, selected}){
     return (
         <Wrapper>
             <DropdownButton onClick={toggleDropdown}>
-                {selectedOption || selected?.name ? selected.name : 'All Groceries'}
+                {selectedOption || selected?.name ? selected.name : 'View Options'}
             </DropdownButton>
             <DropdownContent open={isOpen}>
                 {

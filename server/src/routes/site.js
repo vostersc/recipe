@@ -1,5 +1,5 @@
-const {getGroceries, getToken, getGroceryLists} = require('@vostersc/paprika');
-const crawler = require('@vostersc/crawler');
+const {getGroceries, getGroceryLists} = require('@vostersc/paprika');
+const Crawler = require('@vostersc/crawler');
 // const {pool, getUserByEmail} = require('../db/database');
 // const {generateAccessToken, validateToken, checkPw, hashPw} = require('../auth/auth');
 // const {getSubscriptionsToATag} = require('../api');
@@ -7,8 +7,6 @@ const crawler = require('@vostersc/crawler');
 
 
 function routes(app){
-    getToken('kaleigh.niemela@gmail.com', 'tCk1mb^IFUv9H2yE'); //MOVE TO MIDDLEWARE
-
     app.get('/api/groceryLists', async (req, res) => {
         
         const groceryLists = await getGroceryLists();
@@ -17,7 +15,6 @@ function routes(app){
     });
 
     app.get('/api/groceries/:listName?', async (req, res) => {
-        // await getToken('kaleigh.niemela@gmail.com', 'tCk1mb^IFUv9H2yE');
         if(!req.params?.listName){
             const groceries = await getGroceries();
 
@@ -41,34 +38,35 @@ function routes(app){
             return cleanIngredient.split(' ').filter(el => ['oz', 'lb', 'g', 'lbs', 'ozs'].includes(el) ? '' : el).join(' ');
         });
         const builtUrls = cleanIngredients.map(el => `http://shop.harmonsgrocery.com/search?search_term=${el}`); 
-        const qty = allIngredients.map(el => {
-            if(!el[1] || el[1].includes('/')) return 1;
-            const cleanIngredient = el[1].replace(/[^\d.]/g, '');
-            return cleanIngredient ? cleanIngredient : 1;
-        });
-
-        console.log('site.js: 50 --->', builtUrls, qty);        
-        // crawler.doAction(builtUrls, crawler.exampleActionFunction, qty, true, true); // ASYNC
+        // const qty = allIngredients.map(el => { //ADD LATER
+        //     if(!el[1] || el[1].includes('/')) return 1;
+        //     const cleanIngredient = el[1].replace(/[^\d.]/g, '');
+        //     return cleanIngredient ? cleanIngredient : 1;
+        // });
+     
+        const C = new Crawler();
+        const config = builtUrls.map(url => ({selector: C.exampleActionFunction, urls: [url]}));
+        C.performAction(config, false, false, true);
 
         let intervalId;
         tempPercentComplete = 1;
         intervalId = setInterval(() => {
             try {
-                const nextNum = getRandomWholeNumber(5, 20);
-                tempPercentComplete = tempPercentComplete + nextNum >= 100 ? 100 : tempPercentComplete + nextNum;
-                console.log('site.js: 59 --->', tempPercentComplete);
-                // const percentComplete = crawler.statusUpdate();
-                // if(percentComplete === 100){
-                //     clearInterval(intervalId);
-                //     ws.send({error: false, percentComplete, off: null, name: req.params.listName});
-                //     ws.close();
-                //     return;
-                // }
+                const percentComplete = C.getStatus();
+                if(percentComplete < 100){
+                    ws.send(JSON.stringify({error: false, percentComplete, off: null, name: req.params.listName}));
+                    return;
+                }
 
-                ws.send(JSON.stringify({error: false, percentComplete: tempPercentComplete, off: null, name: req.params.listName}));
+                clearInterval(intervalId);
+                ws.send(JSON.stringify({error: false, percentComplete: 100, off: null, name: req.params.listName}));
+                ws.close();
+                return;
+
             } catch(err){
-                ws.send({error: true, percentComplete: 0, off: true, name: req.params.listName});   
+                ws.send(JSON.stringify({error: true, percentComplete: 0, off: true, name: req.params.listName}));   
                 cleanUp(err);
+                C.stopCrawler();
             }
         }, 1000);
 
@@ -77,9 +75,9 @@ function routes(app){
 
         function cleanUp(e){
             console.log('site.js: 81 --->', e);
-            // crawler.stop();
             clearInterval(intervalId);
-            ws.close(); 
+            ws.close();
+            C.stopCrawler();
         }
 
         function getRandomWholeNumber(min, max) {

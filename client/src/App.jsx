@@ -21,7 +21,6 @@ function App() {
                 <Routes>
 
                     <Route path="/user" element={auth(<User/>)}/>
-                    {/* <Route path='*' element={auth(<Landing/>)} /> */}
                     <Route path='*' element={<Landing/>} />
 
                 </Routes>

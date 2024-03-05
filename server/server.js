@@ -9,6 +9,7 @@ const {logger} = require('./src/util');
 const initSiteRoutes = require('./src/routes/site');
 const initUserRoutes = require('./src/routes/users');
 const {authMiddleware} = require('./src/auth');
+const {getToken} = require('@vostersc/paprika');
 // const initStripeRoutes = require('./src/routes/stripe');
 // const fs = require('fs');
 const cors = require('cors');
@@ -39,6 +40,8 @@ app.use(bodyParser.json());
 
 app.use(logger);
 app.use(authMiddleware);
+
+getToken(process.env.PAPRIKA_USERNAME, process.env.PAPRIKA_PASSWORD) //MOVE WHEN POSTGRES IS WIRED IN...;
 
 // initScraperRoutes(app);
 initUserRoutes(app);

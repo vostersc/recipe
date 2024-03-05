@@ -6,28 +6,41 @@ export default function MultiColumnList({items, renderFn, defaultDisplay = 'No i
 
     return (
         <MultiColumnListWrapper>
-            {
-                groupItems(items, 1).map((elements, i) => {
-                    return (
-                        <Column key={i}>
-                            {elements.map(renderFn)}
-                        </Column>
-                    );
-                })
-            }
+            <Grid>
+                {
+                    groupItems(items, 1).map((elements, i) => {
+                        return (
+                            <Column key={i}>
+                                {elements.map(renderFn)}
+                            </Column>
+                        );
+                    })
+                }
+            </Grid>
         </MultiColumnListWrapper>
     );
 }
 
 const MultiColumnListWrapper = styled.div`
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    justify-content: center;
+    alighn-items: center;
+    width: 100%:
+`;
+
+const Grid = styled.div`
+    display: grid;
+    grid-auto-rows: 50px;
+    grid-template-columns: repeat(auto-fill, 200px);
+    grid-gap: 0px;
+    width: 100%;
 `;
 
 const Column = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 16px;
     min-width: 180px;
 `;
@@ -35,18 +48,9 @@ const Column = styled.div`
 export function groupItems(items, maxItems){
     if(items?.length === 1) return [items];
 
-    let groups = [];
-    let tempGroup = [];
-    for(let i = 0; i < items.length; i++){
-        const atMaxPerGroup = tempGroup.length >= maxItems;
-        if(atMaxPerGroup){
-            groups = [...groups, tempGroup];
-            tempGroup = [];
-            continue;
-        }
-    
-        tempGroup = [...tempGroup, items[i]];
-    }
+    let groupedItems = [];
+    for (let i = 0; i < items.length; i += maxItems) groupedItems.push(items.slice(i, i + maxItems));
 
-    return groups;
+    return groupedItems;
 }
+
