@@ -20,7 +20,8 @@ function App() {
             <Header />
                 <Routes>
 
-                    <Route path="/user" element={auth(<User/>)}/>
+                {/* <Route path="/user" element={auth(<User/>)}/> */}
+                    <Route path="/user" element={<User/>}/>
                     <Route path='*' element={<Landing/>} />
 
                 </Routes>

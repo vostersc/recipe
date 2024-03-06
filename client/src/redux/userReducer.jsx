@@ -1,11 +1,13 @@
-import { CLEAR_IS_FIRST_TIME, MAKE_ACTIVE_COURSE, UPDATE_USER_DATA } from './userActions';
+import { CLEAR_IS_FIRST_TIME, MAKE_ACTIVE_COURSE, UPDATE_USER_DATA, UPDATE_USER_HARMONS } from './userActions';
 
 const init = {
     id: '',
     username: '',
     courses: [],
     activeCourse: '',
-    isFirstTime: true
+    isFirstTime: true,
+    harmonsUserName: '', //REPLACE W HARMONS TOKEN
+    harmons: '' //REPLACE W HARMONS TOKEN
 };
 
 export default function basicReducer(state = init, action) {
@@ -16,6 +18,8 @@ export default function basicReducer(state = init, action) {
             return {...state, isFirstTime: false};
         case MAKE_ACTIVE_COURSE:
             return {...state, activeCourse: action.payload};
+            case UPDATE_USER_HARMONS:
+            return {...state, harmons: action.payload?.harmons, harmonsUserName: action.payload?.harmonsUserName};
         default:
             return state;
     }

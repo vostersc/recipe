@@ -29,6 +29,12 @@ export async function validateToken(){
 
 
 
+export async function loadHarmonsUser(username, password){
+    const url = baseUrl + '/user/harmons';
+
+    return await axios.post(url, {username, password}); 
+}
+
 export async function getGroceries(listId){
     if(!listId) return await axios.get(`${baseUrl}/groceries`);
 

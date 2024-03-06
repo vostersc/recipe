@@ -1,14 +1,16 @@
 import {Button, Input} from '../components';
 import Card, {Description, P, Title} from '../components/Card';
 import React, {useState} from 'react';
+import { loadHarmonsUser, updateUserData } from '../api';
 
+import HarmonsInfo from '../components/HarmonsInfo';
 import Loading from '../components/Loading';
 import PageWrapper from '../components/PageWrapper';
 import { clearIsFirstTime } from '../redux/userActions';
 import { logOut } from '../redux/actions';
 import {store} from '../redux/store';
-import styled from 'styled-components';
-import { updateUserData } from '../api';
+import styled from 'styled-components/macro';
+import {updateHarmons} from '../redux/userActions.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -28,6 +30,18 @@ export default function User(){
     const [isLoading, setLoadingStatus] = useState(false);
     const [message, setMessage] = useState(setInitialMessageState(user));
 
+    const [harmonsUserName, setHarmonsUserName] = useState(user.harmonsUserName);
+    const [harmonsPassword, setHarmonsPassword] = useState(user.harmons);
+
+    async function submitHarmonsInfo(){
+        try {
+            await loadHarmonsUser(harmonsUserName, harmonsPassword);
+            store.dispatch(updateHarmons({harmons: harmonsPassword, harmonsUserName}));
+        } catch(err){
+            console.log('User.jsx: 43 --->', err); //add popup...
+        }
+    }
+
     function setInitialMessageState(user){
         if(user.isFirstTime) return {type: 'err', message: 'Welcome to the course. Since this is your first time, please set your new password.'};
     
@@ -41,6 +55,9 @@ export default function User(){
 
     return (
         <PageWrapper>
+            <Card>
+                <Button onClick={() => navigate('/')}>View Groceries</Button>
+            </Card>
             <Card>
                 <Title>User</Title>
                 <Description>
@@ -65,6 +82,13 @@ export default function User(){
                     </P>
                 </Description>
             </Card>
+            <HarmonsInfo
+                submitHarmonsInfo={submitHarmonsInfo}
+                setHarmonsUserName={setHarmonsUserName}
+                harmonsUserName={harmonsUserName}
+                harmonsPassword={harmonsPassword}
+                setHarmonsPassword={setHarmonsPassword}
+            />
             <Card>
                 <Title>Help</Title>
                 <Description>

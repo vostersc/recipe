@@ -1,17 +1,12 @@
-- crawler needs to provide .statusUpdate() and .stop() methods
-- fix no internet paprika breaking app (@vostersc/crawler and paprika requests)
-- hook up server side crawler add to cart
+- have software auto log in to their harmons account (on user page have them enter harmons login info)
+- add headless flag to crawler
 
-- gets cookies/local storage and passes it to client to click "view cart" can redirect properly
+- item search names are editable -> edit to find better match (explain to copy exactly what harmons says)
+- add qty support
 
-- testing
-- add proptypes
-
-- items are clickable -> edit to find better match, software suggestions
-- hook up stripe
-- drop into docker, set up CICD, nginx, ubuntu server
-- api caching
-- react optimization
+- api caching (RTK cache)
+- basic unit testing, e2e testing, proptypes
 - server side optimization
 
-- [react query](https://tanstack.com/query/latest/docs/framework/react/overview) missing api library for react (usequery and persistqueryclient). or if you are using redux, [RTK query](https://redux-toolkit.js.org/rtk-query/overview)
+- drop into docker, set up CICD, nginx, ubuntu server
+- hook up stripe

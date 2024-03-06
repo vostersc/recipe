@@ -26,9 +26,18 @@ function routes(app){
         return res.send(groceries);
     });
 
-    app.ws('/api/addToCart/:listName', async (ws, req) => {
-        if(!req.params?.listName){
-            ws.send({error: true, percentComplete: 0, off: null});
+    app.post('/api/user/harmons', async (req, res) => {
+        if(!req.body.username || !req.body.password) res.send('');
+    
+        //write to DB
+    
+        return res.send('success');
+    });
+
+    app.ws('/api/addToCart/:listName/:username', async (ws, req) => {
+        console.log('site.js: 38 --->', req.params);
+        if(!req.params?.listName || !req.params?.username){
+            ws.send({error: 'Please enter your Harmons user name or password.', percentComplete: 0, off: null});
             ws.close();
         }       
 
@@ -46,7 +55,10 @@ function routes(app){
      
         const C = new Crawler();
         const config = builtUrls.map(url => ({selector: C.exampleActionFunction, urls: [url]}));
-        C.performAction(config, false, false, true);
+        const password = process.env.HARMONS_PASSWORD; //temp until db set up to query for this by harmons username
+        //EVENTUALLY GIVE A HARMONS TOKEN SO FRONT END DOESNT STORE USERNAME AND PASSWORD
+        const auth = {username: req.body.username, password, platform: 'Harmons'};
+        C.performAction(config, false, false, true, auth);
 
         let intervalId;
         tempPercentComplete = 1;
@@ -80,15 +92,15 @@ function routes(app){
             C.stopCrawler();
         }
 
-        function getRandomWholeNumber(min, max) {
-            // Generate a random decimal number between 0 and 1
-            const randomDecimal = Math.random();
+        // function getRandomWholeNumber(min, max) {
+        //     // Generate a random decimal number between 0 and 1
+        //     const randomDecimal = Math.random();
         
-            // Scale and shift the random decimal to fit the desired range
-            const randomNumberInRange = Math.floor(randomDecimal * (max - min + 1)) + min;
+        //     // Scale and shift the random decimal to fit the desired range
+        //     const randomNumberInRange = Math.floor(randomDecimal * (max - min + 1)) + min;
         
-            return randomNumberInRange;
-        }
+        //     return randomNumberInRange;
+        // }
     });
 
 }

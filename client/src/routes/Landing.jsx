@@ -1,17 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { getGroceries, getGroceryLists } from '../api';
 
-// import Eg from './INTERVIEW.jsx';
+import { Button } from '../components';
+import Card from '../components/Card.jsx';
 import Landing_Bottom from './Landing_Bottom.jsx';
 import Landing_Top from './Landing_Top.jsx'
 import PageWrapper from '../components/PageWrapper';
 import Popup from '../components/PopUp.jsx';
-
-// import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 let socket; //move
 export default function User() {
-    // const auth = useSelector(s => s.authentication);
+    const navigate = useNavigate();
+    const user = useSelector(s => s.user);
     const [groceryItems, setGroceryItems] = useState([]);
     const [groceryLists, setGroceryLists] = useState([]);
     const [activeDropdownItem, setActiveDropdownItem] = useState({});
@@ -58,7 +60,7 @@ export default function User() {
     const runAddToCart = useCallback(groceryList => {
         if(!groceryList) return setPopUpState(true);
 
-        socket = new WebSocket(`ws://localhost:3000/api/addToCart/${groceryList}`); //get url from env or defaults file
+        socket = new WebSocket(`ws://localhost:3000/api/addToCart/${groceryList}/${user.harmonsUserName}`); //get url from env or defaults file
 
         socket.addEventListener('open', () => setAtcState({ percentComplete: 1, error: false, off: null, name: groceryList }));
         socket.addEventListener('close', () => setAtcState({ percentComplete: 0, error: false, off: null, name: '' }));
@@ -98,7 +100,9 @@ export default function User() {
                 atcState={atcState}
                 groceryItems={groceryItems}
             />
-
+            <Card>
+                <Button onClick={() => navigate('/user')}>Visit User Page</Button>
+            </Card>
             <Popup show={popUpState} close={close} titleText={'Warning:'} renderContent={renderPopupContent}/>
         </PageWrapper>
     );
