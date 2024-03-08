@@ -20,7 +20,7 @@
   "dependencies": {
     "@babel/eslint-parser": "^7.19.1",
     "@js-temporal/polyfill": "^0.4.4",
-    "@vostersc/crawler": "^2.0.7",
+    "@vostersc/crawler": "^2.0.8",
     "@vostersc/paprika": "^1.0.1",
     "axios": "^0.27.2",
     "babel-loader": "^8.0.0-beta.0",

@@ -48,16 +48,15 @@ function routes(app){
             return cleanIngredient.split(' ').filter(el => ['oz', 'lb', 'g', 'lbs', 'ozs'].includes(el) ? '' : el).join(' ');
         });
         const builtUrls = cleanIngredients.map(el => `http://shop.harmonsgrocery.com/search?search_term=${el}`); 
-        // const qty = allIngredients.map(el => { //ADD LATER
-        //     if(!el[1] || el[1].includes('/')) return 1;
-        //     const cleanIngredient = el[1].replace(/[^\d.]/g, '');
-        //     return cleanIngredient ? cleanIngredient : 1;
-        // });
-
+        const qty = allIngredients.map(el => {
+            if(!el[1] || el[1].includes('/')) return 1;
+            const cleanIngredient = el[1].replace(/[^\d.]/g, '');
+            return cleanIngredient ? cleanIngredient : 1;
+        });
 
         // log into harmons
         const C = new Crawler();
-        const config = builtUrls.map(url => ({selector: C.exampleActionFunction, urls: [url]}));
+        const config = builtUrls.map((url, i) => ({selector: C.exampleActionFunction, urls: [url], qty: qty[i]}));
         const viewPort = { "width": 1000, "height": 768 };
         const userAgent = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
         C.performAction(config, false, true, true, false, viewPort, userAgent);
