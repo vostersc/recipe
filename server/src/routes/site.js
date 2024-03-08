@@ -35,12 +35,13 @@ function routes(app){
     });
 
     app.ws('/api/addToCart/:listName/:username', async (ws, req) => {
-        console.log('site.js: 38 --->', req.params);
         if(!req.params?.listName || !req.params?.username){
             ws.send({error: 'Please enter your Harmons user name or password.', percentComplete: 0, off: null});
             ws.close();
         }       
 
+
+        //build grocery list items
         const allIngredients = await getGroceries(req.params.listName);
         const cleanIngredients = allIngredients.map(el => {
             const cleanIngredient = el[0].replace(/[^\w\s]/gi, '').split(' or ')[0].replace(/[0-9]/g, '');
@@ -52,13 +53,14 @@ function routes(app){
         //     const cleanIngredient = el[1].replace(/[^\d.]/g, '');
         //     return cleanIngredient ? cleanIngredient : 1;
         // });
-     
+
+
+        // log into harmons
         const C = new Crawler();
         const config = builtUrls.map(url => ({selector: C.exampleActionFunction, urls: [url]}));
-        const password = process.env.HARMONS_PASSWORD; //temp until db set up to query for this by harmons username
-        //EVENTUALLY GIVE A HARMONS TOKEN SO FRONT END DOESNT STORE USERNAME AND PASSWORD
-        const auth = {username: req.body.username, password, platform: 'Harmons'};
-        C.performAction(config, false, false, true, auth);
+        const viewPort = { "width": 1000, "height": 768 };
+        const userAgent = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
+        C.performAction(config, false, true, true, false, viewPort, userAgent);
 
         let intervalId;
         tempPercentComplete = 1;
@@ -86,21 +88,12 @@ function routes(app){
         ws.on('message', e => cleanUp(e));
 
         function cleanUp(e){
-            console.log('site.js: 81 --->', e);
+            if(e) console.log('site.js: 81 --->', e);
+
             clearInterval(intervalId);
             ws.close();
             C.stopCrawler();
         }
-
-        // function getRandomWholeNumber(min, max) {
-        //     // Generate a random decimal number between 0 and 1
-        //     const randomDecimal = Math.random();
-        
-        //     // Scale and shift the random decimal to fit the desired range
-        //     const randomNumberInRange = Math.floor(randomDecimal * (max - min + 1)) + min;
-        
-        //     return randomNumberInRange;
-        // }
     });
 
 }
