@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import macrosPlugin from "vite-plugin-babel-macros";
+import path from "path"
 import react from '@vitejs/plugin-react-swc';
 // import react from '@vitejs/plugin-react'
 
@@ -18,5 +19,10 @@ export default defineConfig({
         environment: 'jsdom',
         globals: true,
         setupFiles: './src/tests/setup.js' // assuming the test folder is in the root of our project
+    },
+    resolve: {
+        alias: {
+          "@": path.resolve(__dirname, "./src"),
+        },
     }
 });
