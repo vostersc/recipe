@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import macrosPlugin from "vite-plugin-babel-macros";
 import react from '@vitejs/plugin-react-swc';
+// import react from '@vitejs/plugin-react'
 
 export default defineConfig({
     define: {
@@ -12,5 +13,10 @@ export default defineConfig({
             REACT_APP_DEV_TOKEN: 'alsdfjmlasdasdjlfkjsdfklsdjfsss'
         }
     },
-    plugins: [ macrosPlugin(), react() ]
-})
+    plugins: [ macrosPlugin(), react() ],
+    test: {
+        environment: 'jsdom',
+        globals: true,
+        setupFiles: './src/tests/setup.js' // assuming the test folder is in the root of our project
+    }
+});

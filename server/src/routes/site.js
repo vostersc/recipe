@@ -40,15 +40,14 @@ function routes(app){
             ws.close();
         }       
 
-
         //build grocery list items
         const allIngredients = await getGroceries(req.params.listName);
-        const cleanIngredients = allIngredients.map(el => {
+        const cleanIngredients = allIngredients.map(el => { //optimize
             const cleanIngredient = el[0].replace(/[^\w\s]/gi, '').split(' or ')[0].replace(/[0-9]/g, '');
             return cleanIngredient.split(' ').filter(el => ['oz', 'lb', 'g', 'lbs', 'ozs'].includes(el) ? '' : el).join(' ');
         });
-        const builtUrls = cleanIngredients.map(el => `http://shop.harmonsgrocery.com/search?search_term=${el}`); 
-        const qty = allIngredients.map(el => {
+        const builtUrls = cleanIngredients.map(el => `http://shop.harmonsgrocery.com/search?search_term=${el}`); //optimize
+        const qty = allIngredients.map(el => {  //optimize
             if(!el[1] || el[1].includes('/')) return 1;
             const cleanIngredient = el[1].replace(/[^\d.]/g, '');
             return cleanIngredient ? cleanIngredient : 1;
@@ -56,14 +55,14 @@ function routes(app){
 
         // log into harmons
         const C = new Crawler();
-        const config = builtUrls.map((url, i) => ({selector: C.exampleActionFunction, urls: [url], qty: qty[i]}));
+        const config = builtUrls.map((url, i) => ({selector: C.exampleActionFunction, urls: [url], qty: qty[i]})); //optimize
         const viewPort = { "width": 1000, "height": 768 };
         const userAgent = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
         C.performAction(config, false, true, true, false, viewPort, userAgent);
 
         let intervalId;
         tempPercentComplete = 1;
-        intervalId = setInterval(() => {
+        intervalId = setInterval(() => { //set up with event emitters...
             try {
                 const percentComplete = C.getStatus();
                 if(percentComplete < 100){

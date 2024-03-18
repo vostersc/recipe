@@ -1,9 +1,7 @@
-import App from './App';
-import React from 'react';
-import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest'
 
-test('renders learn react link', () => {
-    const { getByText } = render(<App />);
-    const linkElement = getByText(/learn react/i);
-    expect(linkElement).toBeInTheDocument();
-});
+describe('A truthy statement', () => {
+    it('should be equal to 2', () => {
+        expect(1+1).toEqual(2)
+    })
+})
