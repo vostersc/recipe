@@ -46,7 +46,7 @@ export default function User() {
 
         const response = await getGroceries(groceryListName);
         const hasData = response?.data?.length > 0;
-        if (!hasData) return;
+        if (!hasData) return setGroceryItems([]);
 
         setGroceryItems(response.data);
     }
@@ -60,7 +60,7 @@ export default function User() {
     const runAddToCart = useCallback(groceryList => {
         if(!groceryList) return setPopUpState(true);
 
-        socket = new WebSocket(`ws://localhost:3000/api/addToCart/${groceryList}/${user.harmonsUserName}`); //get url from env or defaults file
+        socket = new WebSocket(`ws://localhost:3000/api/addToCart/${groceryList}/${user.harmonsUserName || 'demo'}`); //get url from env or defaults file
 
         socket.addEventListener('open', () => setAtcState({ percentComplete: 1, error: false, off: null, name: groceryList }));
         socket.addEventListener('close', () => setAtcState({ percentComplete: 0, error: false, off: null, name: '' }));

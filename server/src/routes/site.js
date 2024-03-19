@@ -60,6 +60,7 @@ function routes(app){
         const userAgent = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
         C.performAction(config, false, true, true, false, viewPort, userAgent);
 
+
         let intervalId;
         tempPercentComplete = 1;
         intervalId = setInterval(() => { //set up with event emitters...
@@ -80,7 +81,7 @@ function routes(app){
                 cleanUp(err);
                 C.stopCrawler();
             }
-        }, 1000);
+        }, 500);
 
         ws.on('close', () => cleanUp());
         ws.on('message', e => cleanUp(e));
