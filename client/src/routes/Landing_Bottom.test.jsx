@@ -38,6 +38,20 @@ describe('Landing_Bottom', () => {
         expect(renderedItem).toBeNull();
     });
 
+    it('Hides add to cart button when there are no items.', () => {
+        const customAtcState = {percentComplete: 0, error: false, off: null, name: ''};
+        render(buildLanding(groceryLists, [], customAtcState));
+        const renderedItem = screen.queryByText('Load This Cart');   
+        expect(renderedItem).toBeNull();
+    });
+
+    it('Hides add to cart button when all items are on display.', () => {
+        const customAtcState = {percentComplete: 0, error: false, off: null, name: ''};
+        render(buildLanding(groceryLists, groceryItems, customAtcState));
+        const renderedItem = screen.queryByText('Load This Cart');   
+        expect(renderedItem).toBeNull();
+    });
+
     it('Limits max display text length of a grocery item.', () => {
         render(buildLanding(groceryLists, groceryItems, atcState));
         const expectedLimitedText = 'turkey';

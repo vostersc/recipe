@@ -28,13 +28,15 @@ const Landing_Bottom = ({activeDropdownItem, limitDisplay, groceryLists, grocery
         return displayableText;
     }
 
+    const displayAtc = !canViewCartNow && !loading && activeDropdownItem?.name && groceryItems.length > 0;
+
     return (
         <Card>
             <TitleWrapper>
                 <DropdownPadding>
                     <Dropdown selected={activeDropdownItem} options={groceryLists} selectItem={selectDropdownItem} />
                 </DropdownPadding>
-                { !canViewCartNow && !loading && activeDropdownItem?.name ? <Button onClick={() => runAddToCart(activeDropdownItem?.name)}>Load This Cart</Button> : '' } 
+                { displayAtc ? <Button onClick={() => runAddToCart(activeDropdownItem?.name)}>Load This Cart</Button> : '' } 
             </TitleWrapper>
             <Description>
                 <MultiColumnList items={groceryItems.map(el => el[0])} renderFn={(el, i) => <P role='option' key={i}>{limit(el, limitDisplay)}</P>} />
