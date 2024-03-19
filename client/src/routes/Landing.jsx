@@ -92,7 +92,7 @@ export default function User() {
                 viewCart={viewCart}
             />
             <Landing_Bottom
-                limitDisplay={limitDisplay}
+                limitDisplay={27}
                 runAddToCart={runAddToCart}
                 activeDropdownItem={activeDropdownItem}
                 groceryLists={groceryLists}
@@ -106,21 +106,4 @@ export default function User() {
             <Popup show={popUpState} close={close} titleText={'Warning:'} renderContent={renderPopupContent}/>
         </PageWrapper>
     );
-}
-
-function limitDisplay(str, maxAllowed) {
-    const words = str.split(' ');
-    const displayableText = words.reduce((acc, cur, i, arr) => {
-        const futureString = `${acc} ${cur}`;
-        const isSafeLength = futureString.length < maxAllowed;
-        if (!isSafeLength) {
-            arr.splice(1);
-            return acc;
-        }
-
-        acc = futureString;
-        return acc;
-    }, '');
-
-    return displayableText;
 }

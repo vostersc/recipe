@@ -1,5 +1,4 @@
 import {Button} from '../components';
-import DropDownIcon from './DropdownIcon';
 import React from 'react';
 import colors from '../components/colors';
 import font from './font';
